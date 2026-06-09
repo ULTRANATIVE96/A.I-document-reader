@@ -395,7 +395,7 @@ class DakaiInputLinguist:
             ]
         },
         # Greetings
-        r"\b(awe|sho|sharp|heita|hola|heza|yo|sup|howdy|heya|hiya|xewani|avuxeni|sawubona|molo|ndaa|thobela)\b": {
+        r"\b(awe|sho|sharp|heita|hola|heza|yo|sup|howdy|heya|hiya|xewani|avuxeni|sawubona|molo|ndaa|thobela|xeweta|pfuxela|greet|greeting|just\s+greeting|just\s+saying\s+hi|just\s+saying\s+hello|just\s+wanted\s+to\s+say\s+hi|just\s+wanted\s+to\s+say\s+hello|just\s+greeting\s+you|was\s+just\s+greeting)\b": {
             "intent": BanterIntent.GREETING,
             "responses": [
                 "Sho! How's it going? I'm ready when you are. What study material or document are we looking at today?",
@@ -458,6 +458,16 @@ class DakaiInputLinguist:
         r"\blechwo\b": "leswo",
         r"\blexwi\b": "leswi",
         r"\blexwo\b": "leswo",
+        r"\bawuxeni\b": "avuxeni",
+        r"\bawuswitiv\b": "avuswitiv",
+        r"\bawuswitivi\b": "avuswitiv",
+        r"\bawuswitive\b": "avuswitiv",
+        r"\banoku\b": "a ndzo ku",
+        r"\bandzoku\b": "a ndzo ku",
+        r"\bxoweta\b": "xeweta",
+        r"\bavuweni\b": "avuxeni",
+        r"\baxeweni\b": "xewani",
+        r"\baxewani\b": "xewani",
     }
 
     @classmethod
@@ -522,7 +532,8 @@ class DakaiInputLinguist:
                 "avuxeni", "xewani", "khensa", "ngopfu", "swinene", "ndza", "ndzi", "ku", "dyondza", "hlaya", 
                 "vanhu", "vasati", "vafana", "xikolo", "xilo", "xitulu", "swilo", "misava", "tiko", 
                 "vito", "ribye", "yindlu", "tindlu", "timbyana", "mbyana", "hlayisani", "kahle", 
-                "tlanga", "saseka", "tsonga", "vatsonga", "xitsonga", "leswi", "leswo", "malamulele", "giyani"
+                "tlanga", "saseka", "tsonga", "vatsonga", "xitsonga", "leswi", "leswo", "malamulele", "giyani",
+                "leswaku", "yini", "tivi", "switivi", "switive", "switiva", "niri"
             ],
             "zu": [
                 "sawubona", "sanibonani", "yebo", "cha", "kunjhani", "unjhani", "ngiyaphila", "ngiyabonga", 
@@ -566,8 +577,8 @@ class DakaiInputLinguist:
         if eng_score >= best_bantu_score:
             return "en"
             
-        if best_bantu_lang == "en":
-            if re.search(r'\b(?:ndzi|ndza|leswi|xikolo|swilo)\b', text_lower):
+        if best_bantu_lang == "en" or best_bantu_score == 0:
+            if re.search(r'\b(?:ndzi|ndza|leswi|xikolo|swilo|leswaku|avuxeni|awuxeni|switivi|switive|xitsonga)\b', text_lower):
                 return "ts"
             if re.search(r'\b(?:ngiya|sawubona|kunjhani|umsebenzi|wakho|isizulu)\b', text_lower):
                 return "zu"

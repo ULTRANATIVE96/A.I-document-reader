@@ -396,14 +396,19 @@ def translate_back_if_needed(text: str, lang_code: str) -> str:
         print(f"Translation back to {lang_code} failed: {e}")
         return text
 
-def build_response(user_input, context="", session_id=None):
+def build_response(user_input, context="", session_id=None, target_lang=None):
     # Preprocess user input: correct typos, map slang, and classify conversational intent
     cleaned_text, intent, slang_response = DakaiInputLinguist.preprocess_and_classify(user_input)
-    if intent != BanterIntent.UNKNOWN:
-        return slang_response
 
     # Detect if the query is in a Bantu language
     detected_lang = DakaiInputLinguist.detect_bantu_language(cleaned_text)
+    
+    # Active language is either the detected Bantu language, or the user's target selection
+    active_lang = detected_lang if detected_lang != "en" else (target_lang or "en")
+
+    if intent != BanterIntent.UNKNOWN:
+        return translate_back_if_needed(slang_response, active_lang)
+
     is_multilingual = (detected_lang != "en")
     
     # Translate input to English if it is in a Bantu language
@@ -560,7 +565,7 @@ def build_response(user_input, context="", session_id=None):
         ]
         response = random.choice(fallbacks)
 
-    return translate_back_if_needed(response, detected_lang)
+    return translate_back_if_needed(response, active_lang)
 
 
 # ----------------------------------------------------------------
@@ -656,11 +661,12 @@ def chat():
     user_input = data.get("message", "").strip()
     context = data.get("context", "")
     session_id = data.get("session_id", "default")
+    target_lang = data.get("target_lang", None)
 
     if not user_input:
         return jsonify({"response": "Please type a message."})
 
-    bot_response = build_response(user_input, context, session_id)
+    bot_response = build_response(user_input, context, session_id, target_lang)
 
     push_history(session_id, "user", user_input)
     push_history(session_id, "assistant", bot_response)

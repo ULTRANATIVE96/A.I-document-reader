@@ -13,21 +13,9 @@ import mammoth from 'mammoth';
 import ChatPanel from './components/ChatPanel';
 import FluidReader from './components/FluidReader';
 import useDakaiAudioPlayer from './hooks/useDakaiAudioPlayer';
+import SearchableLanguageSelector, { SA_LANGUAGES } from './components/SearchableLanguageSelector';
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.js`;
-
-const SA_LANGUAGES = [
-  { name: 'isiZulu', code: 'zu' },
-  { name: 'isiXhosa', code: 'xh' },
-  { name: 'Afrikaans', code: 'af' },
-  { name: 'Sesotho', code: 'st' },
-  { name: 'Setswana', code: 'tn' },
-  { name: 'Sepedi', code: 'nso' },
-  { name: 'Xitsonga', code: 'ts' },
-  { name: 'SiSwati', code: 'ss' },
-  { name: 'Tshivenda', code: 've' },
-  { name: 'isiNdebele', code: 'nr' }
-];
 
 // Generate a stable session ID for this browser tab
 const SESSION_ID = (() => {
@@ -193,7 +181,7 @@ const App = () => {
       const response = await fetch('http://127.0.0.1:5000/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: text, context: extractedText, session_id: SESSION_ID })
+        body: JSON.stringify({ message: text, context: extractedText, session_id: SESSION_ID, target_lang: targetLang })
       });
       if (!response.ok) throw new Error('Backend offline');
       const data = await response.json();
@@ -332,7 +320,7 @@ const App = () => {
   // ── Inline TTS (for chat) ──
   const speak = (text) => {
     if (!text) return;
-    playSpeech(text, 'en', { speed: 0.95 });
+    playSpeech(text, targetLang, { speed: 0.95 });
   };
 
   // ── Reader toggle ──
@@ -423,16 +411,19 @@ const App = () => {
         </div>
 
         <div className="flex items-center gap-4">
-          <div className="hidden md:flex items-center gap-3 glass px-4 py-2 rounded-2xl border border-white/5">
-            <Volume2 size={16} className="text-indigo-400" />
-            <select
-              className="bg-transparent text-[11px] font-semibold focus:outline-none text-slate-300 max-w-[150px]"
-              value={selectedVoice?.name || ''}
-              onChange={(e) => setSelectedVoice(voices.find(v => v.name === e.target.value))}
-            >
-              {voices.map((v, i) => <option key={i} value={v.name} className="bg-slate-900">{v.name}</option>)}
-            </select>
-          </div>
+          <SearchableLanguageSelector
+            targetLang={targetLang}
+            selectedVoice={selectedVoice}
+            voices={voices}
+            onChange={({ targetLang: lang, selectedVoice: voice }) => {
+              setTargetLang(lang);
+              setDialect(null);
+              if (voice) {
+                setSelectedVoice(voice);
+              }
+            }}
+            compact={true}
+          />
           <button className="p-2.5 glass rounded-2xl hover:bg-white/10 text-slate-400 transition-colors">
             <Settings size={20} />
           </button>

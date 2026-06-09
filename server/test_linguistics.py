@@ -121,6 +121,9 @@ typo_cases = [
     ("mispelled langauges in the sumary", "misspelled languages in the summary"),
     ("nzi kombela ku pfuniwa hi lechwi", "ndzi kombela ku pfuniwa hi leswi"),
     ("chikolo xa mina xi saseka", "xikolo xa mina xi saseka"),
+    ("anoku xoweta tsena", "a ndzo ku xeweta tsena"),
+    ("andzoku pfuxela tsena", "a ndzo ku pfuxela tsena"),
+    ("avuweni", "avuxeni"),
 ]
 for orig, expected in typo_cases:
     corrected = DakaiInputLinguist.correct_typos(orig)
@@ -132,6 +135,10 @@ slang_cases = [
     ("jus the usual", BanterIntent.IDLE_GREETING),
     ("awe bra", BanterIntent.GREETING),
     ("sho mgani", BanterIntent.GREETING),
+    ("avuweni", BanterIntent.GREETING),
+    ("anoku xoweta tsena", BanterIntent.GREETING),
+    ("andzoku pfuxela tsena akuna swinwani", BanterIntent.GREETING),
+    ("i was just greeting you nothing else", BanterIntent.GREETING),
     ("eish this is tough", BanterIntent.EXCLAMATION),
     ("what is 2 + 2", BanterIntent.UNKNOWN),
 ]

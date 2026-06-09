@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AI Chat & Image Reader with Voice</title>
+
+<style>
+  body { font-family: Arial; padding: 20px; max-width: 600px; margin: auto; }
+  input, textarea, button { width: 100%; margin: 5px 0; padding: 8px; }
+  #ocrResult { border: 1px solid #ccc; padding: 10px; min-height: 50px; margin-bottom: 20px; }
+ #chatBox {
+  border: 1px solid #ccc;
+  padding: 10px;
+  height: 300px;        /* fixed height */
+  overflow-y: auto;     /* enables scrolling */
+  white-space: pre-wrap;
+  background: #f9f9f9;
+}
+
+  .user { color: blue; }
+  .ai { color: green; }
+</style>
+</head>
+<body>
+
+<!-- Load Tesseract.js -->
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@v4.1.1/dist/tesseract.min.js"></script>
+
+<h2>Upload Image for Text</h2>
+<input type="file" id="imageInput">
+<div id="ocrResult">OCR result will appear here...</div>
+
+<h2>Controls</h2>
+<button onclick="pauseSpeech()">⏸ Pause</button>
+<button onclick="resumeSpeech()">▶ Resume</button>
+<button onclick="stopSpeech()">⏹ Stop</button>
+
+<h2>Chat with AI</h2>
+<div id="chatBox">The conversation will appear here...</div>
+<textarea id="userInput" rows="3" placeholder="Type your message here..."></textarea>
+<button id="sendBtn">Send</button>
+<select id="voiceSelect"></select>
+
+<!-- Load libraries -->
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@v4.1.1/dist/tesseract.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>
+
+<!-- Link external JS -->
+<script src="mechanics.js"></script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+{
+  "learned_facts": [
+    {
+      "question": "who is the president of the united state of america",
+      "answer": "The president of the United States (POTUS) is the head of state and head of government of the United States. The president directs the executive branch of the federal government and is the commander-in-chief of the United States Armed Forces. The power of the presidency has grown since the first president, George Washington, took office in 1789.",
+      "keywords": [
+        "president",
+        "united",
+        "state",
+        "america"
+      ],
+      "required": [
+        "president",
+        "united"
+      ]
+    },
+    {
+      "question": "what is your job",
+      "answer": "Your Job In Germany is a short film made for the United States War Department in 1945 just before Victory in Europe Day (VE). It was shown to US soldiers about to go on occupation duty in Germany. The film was made by the military film unit commanded by Frank Capra and was written by Theodor Geisel, better known by his pen name Dr.",
+      "keywords": [
+        "what",
+        "your"
+      ],
+      "required": [
+        "what",
+        "your"
+      ]
+    }
+  ]
+}

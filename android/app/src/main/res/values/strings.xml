@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">AI Document Reader</string>
+    <string name="title_activity_main">AI Document Reader</string>
+    <string name="package_name">com.ultranative.aidocreader</string>
+    <string name="custom_url_scheme">com.ultranative.aidocreader</string>
+</resources>

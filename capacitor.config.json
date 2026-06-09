@@ -1,0 +1,6 @@
+{
+  "appId": "com.ultranative.dacai",
+  "appName": "dacai",
+  "webDir": "dist",
+  "bundledWebRuntime": false
+}

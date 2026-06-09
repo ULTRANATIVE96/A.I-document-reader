@@ -1,0 +1,8 @@
+pytesseract
+opencv-python
+python-docx
+pdf2image
+deep-translator
+flask
+flask-cors
+requests

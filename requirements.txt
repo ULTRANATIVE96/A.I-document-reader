@@ -1,4 +1,6 @@
-pytesseract==0.3.11
-opencv-python==4.8.1.78
-python-docx==0.8.12
-pdf2image==1.16.3
+deep-translator
+flask
+flask-cors
+requests
+gunicorn
+wikipedia

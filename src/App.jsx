@@ -17,6 +17,8 @@ import SearchableLanguageSelector, { SA_LANGUAGES } from './components/Searchabl
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.js`;
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000';
+
 // Generate a stable session ID for this browser tab
 const SESSION_ID = (() => {
   let id = sessionStorage.getItem('dacai_session_id');
@@ -178,7 +180,7 @@ const App = () => {
     setMessages(prev => [...prev, { sender: 'user', text }]);
     setIsProcessing(true);
     try {
-      const response = await fetch('http://127.0.0.1:5000/chat', {
+      const response = await fetch(`${API_BASE_URL}/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: text, context: extractedText, session_id: SESSION_ID, target_lang: targetLang })
@@ -265,7 +267,7 @@ const App = () => {
       // Try enriched endpoint first, fall back to plain
       let data;
       try {
-        const response = await fetch('http://127.0.0.1:5000/translate-enriched', {
+        const response = await fetch(`${API_BASE_URL}/translate-enriched`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -283,7 +285,7 @@ const App = () => {
 
       // Fallback to basic translate
       if (!data?.translatedText) {
-        const response = await fetch('http://127.0.0.1:5000/translate', {
+        const response = await fetch(`${API_BASE_URL}/translate`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ text: extractedText, target: targetLang })

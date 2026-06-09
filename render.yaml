@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: dacai-backend
+    env: python
+    buildCommand: pip install -r server/requirements.txt
+    startCommand: gunicorn --chdir server main:app
+    envVars:
+      - key: PORT
+        value: 5000
+      - key: FLASK_DEBUG
+        value: false
+      - key: GOOGLE_API_KEY
+        sync: false
+      - key: LIBRETRANSLATE_URL
+        value: http://localhost:5003

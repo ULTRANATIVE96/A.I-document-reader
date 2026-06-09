@@ -1,12 +1,16 @@
 import sys
 import os
+import importlib.util
 
-# Add the server directory to the Python path
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'server'))
+# Add the server directory to the Python path so local imports within server/ main.py resolve correctly
+server_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'server')
+sys.path.insert(0, server_dir)
 
-# Import the actual app from server/main.py
-from main import app
+# Load server/main.py dynamically under a unique module name ('server_main') to prevent circular import collisions
+spec = importlib.util.spec_from_file_location("server_main", os.path.join(server_dir, "main.py"))
+server_main = importlib.util.module_from_spec(spec)
+sys.modules["server_main"] = server_main
+spec.loader.exec_module(server_main)
 
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+# Expose 'app' for Gunicorn (main:app)
+app = server_main.app

@@ -79,24 +79,26 @@ const ChatPanel = ({
             >
               <ImageIcon size={26} />
             </button>
-            <div className="flex-1 relative group">
+            <form
+              onSubmit={(e) => { e.preventDefault(); onSendMessage(); }}
+              className="flex-1 relative group"
+            >
               <input
                 type="text"
                 placeholder="Ask your study partner..."
-                className="w-full glass bg-slate-900/40 border border-white/10 rounded-[1.8rem] px-8 py-5 text-[15px] focus:outline-none focus:border-indigo-500/50 transition-all text-white placeholder:text-slate-600"
+                className="w-full glass bg-slate-900/40 border border-white/10 rounded-[1.8rem] pl-8 pr-16 py-5 text-[15px] focus:outline-none focus:border-indigo-500/50 transition-all text-white placeholder:text-slate-600"
                 value={userInput}
                 onChange={(e) => onUserInputChange(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && onSendMessage()}
               />
-              <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-2">
+              <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-2 z-10">
                 <button
-                  onClick={onSendMessage}
+                  type="submit"
                   className={`p-3 rounded-2xl transition-all ${userInput.trim() ? 'bg-indigo-600 text-white scale-100' : 'opacity-0 scale-50 pointer-events-none'}`}
                 >
                   <Send size={18} />
                 </button>
               </div>
-            </div>
+            </form>
           </div>
 
           <div className="flex justify-center items-center gap-10">
